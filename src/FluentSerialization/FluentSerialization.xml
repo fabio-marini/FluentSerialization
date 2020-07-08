@@ -1,0 +1,536 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>FluentSerialization</name>
+    </assembly>
+    <members>
+        <member name="T:FluentSerialization.IBinaryValue">
+            <summary>
+            Provides fluent access to a byte array
+            </summary>
+        </member>
+        <member name="M:FluentSerialization.IBinaryValue.ToBase64">
+            <summary>
+            Convert the underlying byte array to its corresponding Base64 string
+            </summary>
+            <returns>A Base64-encoded string representation of the underlying byte array</returns>
+        </member>
+        <member name="M:FluentSerialization.IBinaryValue.Decode">
+            <summary>
+            Decode the underlying byte array using the specified <see cref="T:FluentSerialization.IEncodingStrategy" />
+            </summary>
+            <returns>The <see cref="T:FluentSerialization.IStringValue" /> obtained after applying the <see cref="T:FluentSerialization.IEncodingStrategy" /></returns>
+        </member>
+        <member name="M:FluentSerialization.IBinaryValue.Compress">
+            <summary>
+            Compress the underlying byte array using the specified <see cref="T:FluentSerialization.ICompressionStrategy" />
+            </summary>
+            <returns>The <see cref="T:FluentSerialization.IBinaryValue" /> obtained after applying the <see cref="T:FluentSerialization.ICompressionStrategy" /></returns>
+        </member>
+        <member name="M:FluentSerialization.IBinaryValue.Decompress">
+            <summary>
+            Decompress the underlying byte array using the specified <see cref="T:FluentSerialization.ICompressionStrategy" />
+            </summary>
+            <returns>The <see cref="T:FluentSerialization.IBinaryValue" /> obtained after applying the <see cref="T:FluentSerialization.ICompressionStrategy" /></returns>
+        </member>
+        <member name="M:FluentSerialization.IBinaryValue.Encrypt">
+            <summary>
+            Encrypt the underlying byte array using the specified <see cref="T:FluentSerialization.IEncryptionStrategy" />
+            </summary>
+            <returns>The <see cref="T:FluentSerialization.IBinaryValue" /> obtained after applying the <see cref="T:FluentSerialization.IEncryptionStrategy" /></returns>
+        </member>
+        <member name="M:FluentSerialization.IBinaryValue.Decrypt">
+            <summary>
+            Decrypt the underlying byte array using the specified <see cref="T:FluentSerialization.IEncryptionStrategy" />
+            </summary>
+            <returns>The <see cref="T:FluentSerialization.IBinaryValue" /> obtained after applying the <see cref="T:FluentSerialization.IEncryptionStrategy" /></returns>
+        </member>
+        <member name="P:FluentSerialization.IBinaryValue.Value">
+            <summary>
+            Provides access to the underlying byte array
+            </summary>
+        </member>
+        <member name="T:FluentSerialization.ICompressionStrategy">
+            <summary>
+            Represents a compression strategy
+            </summary>
+        </member>
+        <member name="M:FluentSerialization.ICompressionStrategy.Compress(System.Byte[])">
+            <summary>
+            Compress the specified byte array
+            </summary>
+            <param name="req">The byte array to compress</param>
+            <returns>The compressed byte array</returns>
+        </member>
+        <member name="M:FluentSerialization.ICompressionStrategy.Decompress(System.Byte[])">
+            <summary>
+            Decompress the specified byte array
+            </summary>
+            <param name="req">The byte array to decompress (obtained by calling <see cref="M:FluentSerialization.ICompressionStrategy.Compress(System.Byte[])" />)</param>
+            <returns>The decompressed byte array</returns>
+        </member>
+        <member name="T:FluentSerialization.IEncodingStrategy">
+            <summary>
+            Represents an encoding strategy
+            </summary>
+        </member>
+        <member name="M:FluentSerialization.IEncodingStrategy.Decode(System.Byte[])">
+            <summary>
+            Decode the specified byte array
+            </summary>
+            <param name="req">The byte array to decode (obtained by calling <see cref="M:FluentSerialization.IEncodingStrategy.Encode(System.String)" />)</param>
+            <returns>The original string</returns>
+        </member>
+        <member name="M:FluentSerialization.IEncodingStrategy.Encode(System.String)">
+            <summary>
+            Encode the specified string
+            </summary>
+            <param name="req">The string to encode</param>
+            <returns>The input string, as an encoded byte array</returns>
+        </member>
+        <member name="T:FluentSerialization.IEncryptionStrategy">
+            <summary>
+            Represents an encryption strategy
+            </summary>
+        </member>
+        <member name="M:FluentSerialization.IEncryptionStrategy.Decrypt(System.Byte[])">
+            <summary>
+            Encrypt the specified byte array
+            </summary>
+            <param name="req">The byte array to encrypt</param>
+            <returns>The encrypted byte array</returns>
+        </member>
+        <member name="M:FluentSerialization.IEncryptionStrategy.Encrypt(System.Byte[])">
+            <summary>
+            Decrypt the specified byte array
+            </summary>
+            <param name="req">The byte array to decrypt (obtained by calling <see cref="M:FluentSerialization.IEncryptionStrategy.Encrypt(System.Byte[])" />)</param>
+            <returns>The decrypted byte array</returns>
+        </member>
+        <member name="T:FluentSerialization.ISerializationStrategy">
+            <summary>
+            Represents a serialization strategy
+            </summary>
+        </member>
+        <member name="M:FluentSerialization.ISerializationStrategy.Serialize``1(``0)">
+            <summary>
+            Serialize the specified object
+            </summary>
+            <typeparam name="T">The type of the object to serialize</typeparam>
+            <param name="req">The object to serialize</param>
+            <returns>A string representation of the specified object</returns>
+        </member>
+        <member name="M:FluentSerialization.ISerializationStrategy.Deserialize``1(System.String)">
+            <summary>
+            Deserialize the specified object
+            </summary>
+            <typeparam name="T">The type of the object to deserialize</typeparam>
+            <param name="req">A string representation of the specified object (obtained by calling <see cref="M:FluentSerialization.ISerializationStrategy.Serialize``1(``0)" />)</param>
+            <returns>The deserialized object</returns>
+        </member>
+        <member name="T:FluentSerialization.IStrategies">
+            <summary>
+            The strategies to use, all in one convenient place
+            </summary>
+        </member>
+        <member name="P:FluentSerialization.IStrategies.Encoding">
+            <summary>
+            The <see cref="T:FluentSerialization.IEncodingStrategy"/> to use
+            </summary>
+        </member>
+        <member name="P:FluentSerialization.IStrategies.Compression">
+            <summary>
+            The <see cref="T:FluentSerialization.ICompressionStrategy"/> to use
+            </summary>
+        </member>
+        <member name="P:FluentSerialization.IStrategies.Encryption">
+            <summary>
+            The <see cref="T:FluentSerialization.IEncryptionStrategy"/> to use
+            </summary>
+        </member>
+        <member name="P:FluentSerialization.IStrategies.Serialization">
+            <summary>
+            The <see cref="T:FluentSerialization.ISerializationStrategy"/> to use
+            </summary>
+        </member>
+        <member name="T:FluentSerialization.IStringValue">
+            <summary>
+            Provides fluent access to a string
+            </summary>
+        </member>
+        <member name="M:FluentSerialization.IStringValue.FromBase64">
+            <summary>
+            Convert the underlying string to its corresponding Base64 byte array
+            </summary>
+            <returns>A Base64-encoded byte array representation of the underlying string</returns>
+        </member>
+        <member name="M:FluentSerialization.IStringValue.Encode">
+            <summary>
+            Encode the underlying byte array using the specified <see cref="T:FluentSerialization.IEncodingStrategy" />
+            </summary>
+            <returns>The <see cref="T:FluentSerialization.IBinaryValue" /> obtained after applying the <see cref="T:FluentSerialization.IEncodingStrategy" /></returns>
+        </member>
+        <member name="M:FluentSerialization.IStringValue.Deserialize``1">
+            <summary>
+            Deserialize the underlying byte array using the specified <see cref="T:FluentSerialization.ISerializationStrategy" />
+            </summary>
+            <returns>The <see cref="T:FluentSerialization.ITypeValue`1" /> obtained after applying the <see cref="T:FluentSerialization.ISerializationStrategy" /></returns>
+        </member>
+        <member name="P:FluentSerialization.IStringValue.Value">
+            <summary>
+            Provides access to the underlying string
+            </summary>
+        </member>
+        <member name="T:FluentSerialization.ITypeValue`1">
+            <summary>
+            Provides fluent access to an instance of the specified type
+            </summary>
+            <typeparam name="T">The type of the underlying object</typeparam>
+        </member>
+        <member name="M:FluentSerialization.ITypeValue`1.Serialize">
+            <summary>
+            Serialize the underlying byte array using the specified <see cref="T:FluentSerialization.ISerializationStrategy" />
+            </summary>
+            <returns>The <see cref="T:FluentSerialization.IStringValue" /> obtained after applying the <see cref="T:FluentSerialization.ISerializationStrategy" /></returns>
+        </member>
+        <member name="P:FluentSerialization.ITypeValue`1.Value">
+            <summary>
+            Provides access to the underlying object
+            </summary>
+        </member>
+        <member name="T:FluentSerialization.BinaryValue">
+            <summary>
+            Provides fluent access to a byte array
+            </summary>
+        </member>
+        <member name="M:FluentSerialization.BinaryValue.#ctor(System.Byte[],FluentSerialization.IStrategies)">
+            <summary>
+            Create an instance of <see cref="T:FluentSerialization.BinaryValue"/> from the specified byte array
+            </summary>
+            <param name="binaryValue">The input byte array</param>
+            <param name="strategies">The <see cref="T:FluentSerialization.IStrategies"/> to use</param>
+        </member>
+        <member name="P:FluentSerialization.BinaryValue.Value">
+            <summary>
+            Provides access to the underlying byte array
+            </summary>
+        </member>
+        <member name="M:FluentSerialization.BinaryValue.Compress">
+            <summary>
+            Compress the underlying byte array using the specified <see cref="T:FluentSerialization.ICompressionStrategy" />
+            </summary>
+            <returns>The <see cref="T:FluentSerialization.IBinaryValue" /> obtained after applying the <see cref="T:FluentSerialization.ICompressionStrategy" /></returns>
+        </member>
+        <member name="M:FluentSerialization.BinaryValue.Decode">
+            <summary>
+            Decode the underlying byte array using the specified <see cref="T:FluentSerialization.IEncodingStrategy" />
+            </summary>
+            <returns>The <see cref="T:FluentSerialization.IStringValue" /> obtained after applying the <see cref="T:FluentSerialization.IEncodingStrategy" /></returns>
+        </member>
+        <member name="M:FluentSerialization.BinaryValue.Decompress">
+            <summary>
+            Decompress the underlying byte array using the specified <see cref="T:FluentSerialization.ICompressionStrategy" />
+            </summary>
+            <returns>The <see cref="T:FluentSerialization.IBinaryValue" /> obtained after applying the <see cref="T:FluentSerialization.ICompressionStrategy" /></returns>
+        </member>
+        <member name="M:FluentSerialization.BinaryValue.Decrypt">
+            <summary>
+            Decrypt the underlying byte array using the specified <see cref="T:FluentSerialization.IEncryptionStrategy" />
+            </summary>
+            <returns>The <see cref="T:FluentSerialization.IBinaryValue" /> obtained after applying the <see cref="T:FluentSerialization.IEncryptionStrategy" /></returns>
+        </member>
+        <member name="M:FluentSerialization.BinaryValue.Encrypt">
+            <summary>
+            Encrypt the underlying byte array using the specified <see cref="T:FluentSerialization.IEncryptionStrategy" />
+            </summary>
+            <returns>The <see cref="T:FluentSerialization.IBinaryValue" /> obtained after applying the <see cref="T:FluentSerialization.IEncryptionStrategy" /></returns>
+        </member>
+        <member name="M:FluentSerialization.BinaryValue.ToBase64">
+            <summary>
+            Convert the underlying byte array to its corresponding Base64 string
+            </summary>
+            <returns>A Base64-encoded string representation of the underlying byte array</returns>
+        </member>
+        <member name="T:FluentSerialization.Strategies.BZip2CompressionStrategy">
+            <summary>
+            BZip2 compression strategy
+            </summary>
+        </member>
+        <member name="M:FluentSerialization.Strategies.BZip2CompressionStrategy.Compress(System.Byte[])">
+            <summary>
+            Compress the specified byte array
+            </summary>
+            <param name="req">The byte array to compress</param>
+            <returns>The compressed byte array</returns>
+        </member>
+        <member name="M:FluentSerialization.Strategies.BZip2CompressionStrategy.Decompress(System.Byte[])">
+            <summary>
+            Decompress the specified byte array
+            </summary>
+            <param name="req">The byte array to decompress (obtained by calling <see cref="M:FluentSerialization.Strategies.BZip2CompressionStrategy.Compress(System.Byte[])" />)</param>
+            <returns>The decompressed byte array</returns>
+        </member>
+        <member name="T:FluentSerialization.Strategies.GZipCompressionStrategy">
+            <summary>
+            GZip compression strategy
+            </summary>
+        </member>
+        <member name="M:FluentSerialization.Strategies.GZipCompressionStrategy.Compress(System.Byte[])">
+            <summary>
+            Compress the specified byte array
+            </summary>
+            <param name="req">The byte array to compress</param>
+            <returns>The compressed byte array</returns>
+        </member>
+        <member name="M:FluentSerialization.Strategies.GZipCompressionStrategy.Decompress(System.Byte[])">
+            <summary>
+            Decompress the specified byte array
+            </summary>
+            <param name="req">The byte array to decompress (obtained by calling <see cref="M:FluentSerialization.Strategies.GZipCompressionStrategy.Compress(System.Byte[])" />)</param>
+            <returns>The decompressed byte array</returns>
+        </member>
+        <member name="T:FluentSerialization.Strategies.PassThruCompressionStrategy">
+            <summary>
+            Pass thru compression strategy
+            </summary>
+        </member>
+        <member name="M:FluentSerialization.Strategies.PassThruCompressionStrategy.Compress(System.Byte[])">
+            <summary>
+            Compress the specified byte array
+            </summary>
+            <param name="req">The byte array to compress</param>
+            <returns>The compressed byte array</returns>
+        </member>
+        <member name="M:FluentSerialization.Strategies.PassThruCompressionStrategy.Decompress(System.Byte[])">
+            <summary>
+            Decompress the specified byte array
+            </summary>
+            <param name="req">The byte array to decompress (obtained by calling <see cref="M:FluentSerialization.Strategies.PassThruCompressionStrategy.Compress(System.Byte[])" />)</param>
+            <returns>The decompressed byte array</returns>
+        </member>
+        <member name="T:FluentSerialization.Strategies.Utf16EncodingStrategy">
+            <summary>
+            UTF16 encoding strategy
+            </summary>
+        </member>
+        <member name="M:FluentSerialization.Strategies.Utf16EncodingStrategy.Decode(System.Byte[])">
+            <summary>
+            Decode the specified byte array
+            </summary>
+            <param name="req">The byte array to decode (obtained by calling <see cref="M:FluentSerialization.Strategies.Utf16EncodingStrategy.Encode(System.String)" />)</param>
+            <returns>The original string</returns>
+        </member>
+        <member name="M:FluentSerialization.Strategies.Utf16EncodingStrategy.Encode(System.String)">
+            <summary>
+            Encode the specified string
+            </summary>
+            <param name="req">The string to encode</param>
+            <returns>The input string, as an encoded byte array</returns>
+        </member>
+        <member name="T:FluentSerialization.Strategies.Utf8EncodingStrategy">
+            <summary>
+            UTF8 encoding strategy
+            </summary>
+        </member>
+        <member name="M:FluentSerialization.Strategies.Utf8EncodingStrategy.Decode(System.Byte[])">
+            <summary>
+            Decode the specified byte array using the UTF8 encoding
+            </summary>
+            <param name="req">The byte array to decode (obtained by calling <see cref="M:FluentSerialization.Strategies.Utf8EncodingStrategy.Encode(System.String)" />)</param>
+            <returns>The original string</returns>
+        </member>
+        <member name="M:FluentSerialization.Strategies.Utf8EncodingStrategy.Encode(System.String)">
+            <summary>
+            Encode the specified string
+            </summary>
+            <param name="req">The string to encode</param>
+            <returns>The input string, as an encoded byte array</returns>
+        </member>
+        <member name="T:FluentSerialization.Strategies.AesEncryptionStrategy">
+            <summary>
+            AES (symmetric) encryption strategy
+            </summary>
+        </member>
+        <member name="M:FluentSerialization.Strategies.AesEncryptionStrategy.#ctor(System.Byte[])">
+            <summary>
+            Create an instance of the <see cref="T:FluentSerialization.Strategies.AesEncryptionStrategy"/>
+            </summary>
+            <param name="privateKey"></param>
+        </member>
+        <member name="M:FluentSerialization.Strategies.AesEncryptionStrategy.Encrypt(System.Byte[])">
+            <summary>
+            Encrypt the specified byte array
+            </summary>
+            <param name="req">The byte array to encrypt</param>
+            <returns>The encrypted byte array</returns>
+        </member>
+        <member name="M:FluentSerialization.Strategies.AesEncryptionStrategy.Decrypt(System.Byte[])">
+            <summary>
+            Decrypt the specified byte array
+            </summary>
+            <param name="req">The byte array to decrypt (obtained by calling <see cref="M:FluentSerialization.Strategies.AesEncryptionStrategy.Encrypt(System.Byte[])" />)</param>
+            <returns>The decrypted byte array</returns>
+        </member>
+        <member name="T:FluentSerialization.Strategies.PassThruEncryptionStrategy">
+            <summary>
+            Pass thru encryption strategy
+            </summary>
+        </member>
+        <member name="M:FluentSerialization.Strategies.PassThruEncryptionStrategy.Encrypt(System.Byte[])">
+            <summary>
+            Encrypt the specified byte array
+            </summary>
+            <param name="req">The byte array to encrypt</param>
+            <returns>The encrypted byte array</returns>
+        </member>
+        <member name="M:FluentSerialization.Strategies.PassThruEncryptionStrategy.Decrypt(System.Byte[])">
+            <summary>
+            Decrypt the specified byte array
+            </summary>
+            <param name="req">The byte array to decrypt (obtained by calling <see cref="M:FluentSerialization.Strategies.PassThruEncryptionStrategy.Encrypt(System.Byte[])" />)</param>
+            <returns>The decrypted byte array</returns>
+        </member>
+        <member name="T:FluentSerialization.Strategies.JsonSerializationStrategy">
+            <summary>
+            JSON serialization strategy
+            </summary>
+        </member>
+        <member name="M:FluentSerialization.Strategies.JsonSerializationStrategy.#ctor(Newtonsoft.Json.JsonSerializerSettings)">
+            <summary>
+            Create an instance of the <see cref="T:FluentSerialization.Strategies.JsonSerializationStrategy"/>
+            </summary>
+            <param name="settings">The optional <see cref="T:Newtonsoft.Json.JsonSerializerSettings"/> to use</param>
+        </member>
+        <member name="M:FluentSerialization.Strategies.JsonSerializationStrategy.Deserialize``1(System.String)">
+            <summary>
+            Deserialize the specified object using <see cref="T:Newtonsoft.Json.JsonConvert"/>
+            </summary>
+            <typeparam name="T">The type of the object to deserialize</typeparam>
+            <param name="req">A string representation of the specified object (obtained by calling <see cref="M:FluentSerialization.Strategies.JsonSerializationStrategy.Serialize``1(``0)" />)</param>
+            <returns>The deserialized object</returns>
+        </member>
+        <member name="M:FluentSerialization.Strategies.JsonSerializationStrategy.Serialize``1(``0)">
+            <summary>
+            Serialize the specified object using <see cref="T:Newtonsoft.Json.JsonConvert"/>
+            </summary>
+            <typeparam name="T">The type of the object to serialize</typeparam>
+            <param name="req">The object to serialize</param>
+            <returns>A string representation of the specified object</returns>
+        </member>
+        <member name="T:FluentSerialization.Strategies.XmlSerializationStrategy">
+            <summary>
+            XML serialization strategy (using <see cref="T:FluentSerialization.Strategies.JsonSerializationStrategy"/>)
+            </summary>
+        </member>
+        <member name="M:FluentSerialization.Strategies.XmlSerializationStrategy.#ctor(Newtonsoft.Json.JsonSerializerSettings)">
+            <summary>
+            Create an instance of the <see cref="T:FluentSerialization.Strategies.XmlSerializationStrategy"/>
+            </summary>
+            <param name="settings">The optional <see cref="T:Newtonsoft.Json.JsonSerializerSettings"/> to use</param>
+        </member>
+        <member name="M:FluentSerialization.Strategies.XmlSerializationStrategy.Deserialize``1(System.String)">
+            <summary>
+            Deserialize the specified object using the <see cref="T:FluentSerialization.Strategies.JsonSerializationStrategy"/> internally
+            </summary>
+            <typeparam name="T">The type of the object to deserialize</typeparam>
+            <param name="req">A string representation of the specified object (obtained by calling <see cref="M:FluentSerialization.Strategies.XmlSerializationStrategy.Serialize``1(``0)" />)</param>
+            <returns>The deserialized object</returns>
+        </member>
+        <member name="M:FluentSerialization.Strategies.XmlSerializationStrategy.Serialize``1(``0)">
+            <summary>
+            Serialize the specified object using the <see cref="T:FluentSerialization.Strategies.JsonSerializationStrategy"/> internally
+            </summary>
+            <typeparam name="T">The type of the object to serialize</typeparam>
+            <param name="req">The object to serialize</param>
+            <returns>A string representation of the specified object</returns>
+        </member>
+        <member name="T:FluentSerialization.StringValue">
+            <summary>
+            Provides fluent access to a string
+            </summary>
+        </member>
+        <member name="M:FluentSerialization.StringValue.#ctor(System.String,FluentSerialization.IStrategies)">
+            <summary>
+            Create an instance of <see cref="T:FluentSerialization.StringValue"/> from the specified string
+            </summary>
+            <param name="stringValue">The input string</param>
+            <param name="strategies">The <see cref="T:FluentSerialization.IStrategies"/> to use</param>
+        </member>
+        <member name="P:FluentSerialization.StringValue.Value">
+            <summary>
+            Provides access to the underlying string
+            </summary>
+        </member>
+        <member name="M:FluentSerialization.StringValue.Deserialize``1">
+            <summary>
+            Deserialize the underlying byte array using the specified <see cref="T:FluentSerialization.ISerializationStrategy" />
+            </summary>
+            <returns>The <see cref="T:FluentSerialization.ITypeValue`1" /> obtained after applying the <see cref="T:FluentSerialization.ISerializationStrategy" /></returns>
+        </member>
+        <member name="M:FluentSerialization.StringValue.Encode">
+            <summary>
+            Encode the underlying byte array using the specified <see cref="T:FluentSerialization.IEncodingStrategy" />
+            </summary>
+            <returns>The <see cref="T:FluentSerialization.IBinaryValue" /> obtained after applying the <see cref="T:FluentSerialization.IEncodingStrategy" /></returns>
+        </member>
+        <member name="M:FluentSerialization.StringValue.FromBase64">
+            <summary>
+            Convert the underlying string to its corresponding Base64 byte array
+            </summary>
+            <returns>A Base64-encoded byte array representation of the underlying string</returns>
+        </member>
+        <member name="T:FluentSerialization.TypeValue`1">
+            <summary>
+            Provides fluent access to an instance of the specified type
+            </summary>
+            <typeparam name="T">The type of the underlying object</typeparam>
+        </member>
+        <member name="M:FluentSerialization.TypeValue`1.#ctor(`0,FluentSerialization.IStrategies)">
+            <summary>
+            Create an instance of <see cref="T:FluentSerialization.TypeValue`1"/> from an instance of the specified type
+            </summary>
+            <param name="typeInstance">The input instance</param>
+            <param name="strategies">The <see cref="T:FluentSerialization.IStrategies"/> to use</param>
+        </member>
+        <member name="P:FluentSerialization.TypeValue`1.Value">
+            <summary>
+            Provides access to the underlying object
+            </summary>
+        </member>
+        <member name="M:FluentSerialization.TypeValue`1.Serialize">
+            <summary>
+            Serialize the underlying byte array using the specified <see cref="T:FluentSerialization.ISerializationStrategy" />
+            </summary>
+            <returns>The <see cref="T:FluentSerialization.IStringValue" /> obtained after applying the <see cref="T:FluentSerialization.ISerializationStrategy" /></returns>
+        </member>
+        <member name="T:FluentSerialization.With">
+            <summary>
+            Entry point for the FluentSerialization API
+            </summary>
+        </member>
+        <member name="M:FluentSerialization.With.String(System.String,FluentSerialization.IStrategies)">
+            <summary>
+            Create an instance of <see cref="T:FluentSerialization.StringValue"/> from the specified string
+            </summary>
+            <param name="stringValue">The input string</param>
+            <param name="strategies">The <see cref="T:FluentSerialization.IStrategies"/> to use</param>
+            <returns>An instance of <see cref="T:FluentSerialization.StringValue"/></returns>
+        </member>
+        <member name="M:FluentSerialization.With.Bytes(System.Byte[],FluentSerialization.IStrategies)">
+            <summary>
+            Create an instance of <see cref="T:FluentSerialization.BinaryValue"/> from the specified byte array
+            </summary>
+            <param name="binaryValue">The input byte array</param>
+            <param name="strategies">The <see cref="T:FluentSerialization.IStrategies"/> to use</param>
+            <returns>An instance of <see cref="T:FluentSerialization.BinaryValue"/></returns>
+        </member>
+        <member name="M:FluentSerialization.With.Object``1(``0,FluentSerialization.IStrategies)">
+            <summary>
+            Create an instance of <see cref="T:FluentSerialization.TypeValue`1"/> from the specified object
+            </summary>
+            <param name="typeInstance">The input object</param>
+            <param name="strategies">The <see cref="T:FluentSerialization.IStrategies"/> to use</param>
+            <returns>An instance of <see cref="T:FluentSerialization.TypeValue`1"/></returns>
+        </member>
+    </members>
+</doc>
