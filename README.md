@@ -5,20 +5,22 @@ Access the API using the `With` class. This provides the methods required to wor
 
 Once finished, use the `Value` property to access the result obtained from executing all the serialization tasks.
 
-And since a picture paints a thousand words...
-
-![Flow](/img/image.png)
-
 ## Strategies
 Each serialization task is implemented using one of the following interfaces:
-- `IEncodingStrategy`, which provides methods to encode/decode strings into byte arrays using a specific encoding, e.g. UTF8
-- `ISerializationStrategy`, which provides methods to serialize/deserialize objects into strings using a specific serializer, e.g. JSON
-- `ICompressionStrategy`, which provides methods to compress/decompress byte arrays using a specific algorithm, e.g. GZip
-- `IEncryptionStrategy`, which provides methods to encrypt/decrypt byte arrays, using a specific algorithm, e.g. AES
+- `IEncodingStrategy` provides methods to encode/decode strings using a specific encoding, e.g. UTF8
+- `ISerializationStrategy` provides methods to serialize/deserialize objects using a specific serializer, e.g. JSON
+- `ICompressionStrategy` provides methods to compress/decompress byte arrays using a specific algorithm, e.g. GZip
+- `IEncryptionStrategy` provides methods to encrypt/decrypt byte arrays, using a specific algorithm, e.g. AES
 
 The `IStrategies` interface combines all of the above in a single convenient place. An implementation of this can then be provided to the fluent API. If an implementation is not provided, the API will default to UTF8 for encoding, JSON for serialization and pass thru for compression and encryption, i.e. don't compress or encrypt.
 
+And since a picture paints a thousand words... :)
+
+![Flow](/img/image.png)
+
 ## Examples
+A picture may paint a thousand words, but nothing beats a code example! :)
+
 ```c#
 var secretAgent = new SecretAgent { Id = "007", Name = "Bond. James Bond" };
 
