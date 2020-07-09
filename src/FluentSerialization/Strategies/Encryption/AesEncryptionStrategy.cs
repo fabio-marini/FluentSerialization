@@ -14,7 +14,7 @@
         /// <summary>
         /// Create an instance of the <see cref="AesEncryptionStrategy"/>
         /// </summary>
-        /// <param name="privateKey"></param>
+        /// <param name="privateKey">The private key used for encryption</param>
         public AesEncryptionStrategy(byte[] privateKey)
         {
             this.privateKey = privateKey;

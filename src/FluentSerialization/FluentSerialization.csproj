@@ -1,13 +1,13 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
-    <Version>1.0.7</Version>
+    <Version>1.0.0</Version>
     <Authors>Fabio Marini</Authors>
     <Company />
     <Description>A simple fluent API for the most common serialization tasks</Description>
-    <UserSecretsId>15d5a906-fcb8-4743-a116-c014ec361282</UserSecretsId>
+    <PackageProjectUrl>https://github.com/fabio-marini/FluentSerialization</PackageProjectUrl>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -19,8 +19,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="3.1.5" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="3.1.5" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="SharpZipLib" Version="1.2.0" />
   </ItemGroup>

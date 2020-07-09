@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-
+    <UserSecretsId>15d5a906-fcb8-4743-a116-c014ec361282</UserSecretsId>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
@@ -20,6 +20,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\FluentSerialization\FluentSerialization.csproj" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="3.1.5" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="3.1.5" />
   </ItemGroup>
 
 </Project>
