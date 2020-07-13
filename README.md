@@ -5,6 +5,8 @@ Access the API using the `With` class. This provides the methods required to wor
 
 Once finished, use the `Value` property to access the result obtained from executing all the serialization tasks.
 
+You can download the NuGet package from [NuGet.org](https://www.nuget.org/packages/FluentSerialization/)
+
 ## Strategies
 Each serialization task is implemented using one of the following interfaces:
 - `IEncodingStrategy` provides methods to encode/decode strings using a specific encoding, e.g. UTF8
@@ -31,15 +33,15 @@ string jsonAgent = With.Object<SecretAgent>(secretAgent).Serialize().Value;
 // deserialize the specified JSON string into a new SecretAgent instance
 SecretAgent originalAgent = With.String(jsonAgent).Deserialize<SecretAgent>().Value;
 
-// serialize the specified SecretAgent instance to a byte array
+// encode the specified SecretAgent instance to a byte array
 byte[] binaryAgent = With.Object<SecretAgent>(secretAgent).Serialize().Encode().Value;
-
-// this is the same as the above, because the default compression strategy is to pass thru
-byte[] notCompressedAgent = With.Object<SecretAgent>(secretAgent).Serialize().Encode().Compress().Value;
 
 // same as above + convert to base64 string, e.g. for storage or transmission, i.e.
 // eyJOYW1lIjoiQm9uZC4gSmFtZXMgQm9uZCIsIklkIjoiMDA3In0=
-string base64Customer = With.Object<SecretAgent>(secretAgent).Serialize().Encode().ToBase64().Value;
+string base64Agent = With.Object<SecretAgent>(secretAgent).Serialize().Encode().ToBase64().Value;
+
+// this is the same as binaryAgent above, because the default compression strategy is to pass thru
+byte[] notCompressedAgent = With.Object<SecretAgent>(secretAgent).Serialize().Encode().Compress().Value;
 
 // TestStrategies implements IStrategies and is used to specify a set of strategies to use
 var opt = new TestStrategies
@@ -50,15 +52,15 @@ var opt = new TestStrategies
     Serialization = new XmlSerializationStrategy()
 };
 
-// serialize the specified SecretAgent to an XML string (note the opt parameter passed in to the Object method), i.e.
+// now this is actually compressed, because a compression strategy was specified using the opt parameter 
+byte[] compressedAgent = With.Object<SecretAgent>(secretAgent, opt).Serialize().Encode().Compress().Value;
+
+// serialize the specified SecretAgent to an XML string, i.e.
 // <Root><Name>Bond. James Bond</Name><Id>007</Id></Root>
 string xmlAgent = With.Object<SecretAgent>(secretAgent, opt).Serialize().Value;
 
-// serialize the specified SecretAgent to a byte array and encrypt
+// encode the specified SecretAgent to a byte array and encrypt
 byte[] encryptedAgent = With.Object<SecretAgent>(secretAgent, opt).Serialize().Encode().Encrypt().Value;
 
-// decrypt and deserialize the encrypted byte array obtained above
+// decrypt and decode the encrypted byte array obtained above
 SecretAgent decryptedAgent = With.Bytes(encryptedAgent, opt).Decrypt().Decode().Deserialize<SecretAgent>().Value;
-```
-## Download
-You can download the NuGet package from [NuGet.org](https://www.nuget.org/packages/FluentSerialization/)
