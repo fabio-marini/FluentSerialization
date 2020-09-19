@@ -46,7 +46,7 @@
             // serialize using the JSON serialization strategy first, then convert the resulting JSON string to XML
             var json = jsonStrategy.Serialize<T>(req);
 
-            var doc = JsonConvert.DeserializeXNode(json, "Root");
+            var doc = JsonConvert.DeserializeXNode(json, "Root", writeArrayAttribute: true, encodeSpecialCharacters: true);
 
             return doc.ToString(SaveOptions.DisableFormatting);
         }
