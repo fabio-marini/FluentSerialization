@@ -22,6 +22,7 @@
             public ICompressionStrategy Compression { get; set; }
             public IEncryptionStrategy Encryption { get; set; }
             public ISerializationStrategy Serialization { get; set; }
+            public IArchivingStrategy Archiving { get; set; }
         }
 
         #region Base64

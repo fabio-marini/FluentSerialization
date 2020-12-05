@@ -1,5 +1,6 @@
 ﻿namespace FluentSerialization
 {
+
     /// <summary>
     /// The strategies to use, all in one convenient place
     /// </summary>
@@ -24,5 +25,10 @@
         /// The <see cref="ISerializationStrategy"/> to use
         /// </summary>
         public ISerializationStrategy Serialization { get; set; }
+
+        /// <summary>
+        /// The <see cref="IArchivingStrategy"/> to use
+        /// </summary>
+        public IArchivingStrategy Archiving { get; set; }
     }
 }
