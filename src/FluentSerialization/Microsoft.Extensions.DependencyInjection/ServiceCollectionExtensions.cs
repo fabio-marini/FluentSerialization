@@ -1,15 +1,16 @@
 ﻿using FluentSerialization;
 using FluentSerialization.Strategies;
+using System;
 
 namespace Microsoft.Extensions.DependencyInjection
 {
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection AddFluentSerialization(this IServiceCollection services, byte[] encryptionKey = null)
+        public static IServiceCollection AddFluentSerialization(this IServiceCollection services, Func<IServiceProvider, byte[]> encryptionKey = null)
         {
-            if (encryptionKey != null && encryptionKey.Length > 0)
+            if (encryptionKey != null)
             {
-                services.AddTransient<IEncryptionStrategy>(sp => new AesEncryptionStrategy(encryptionKey));
+                services.AddTransient<IEncryptionStrategy>(sp => new AesEncryptionStrategy(encryptionKey(sp)));
             }
 
             return services

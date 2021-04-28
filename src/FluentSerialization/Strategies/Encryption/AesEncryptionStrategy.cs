@@ -31,6 +31,11 @@
         /// <param name="privateKey">The private key used for encryption</param>
         public AesEncryptionStrategy(byte[] privateKey)
         {
+            if (privateKey == null || privateKey.Length != 32)
+            {
+                throw new ArgumentException("AES encryption key is required and must be 32 bytes in length", nameof(privateKey));
+            }
+
             this.privateKey = privateKey;
         }
 

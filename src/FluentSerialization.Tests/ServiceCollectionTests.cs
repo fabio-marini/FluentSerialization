@@ -12,8 +12,6 @@
     {
         public static IEnumerable<object[]> PrivateKeys()
         {
-            yield return new object[] { default(byte[]) };
-            yield return new object[] { new byte[0] };
             yield return new object[] { AesEncryptionStrategy.GeneratePrivateKey() };
             yield return new object[] { Convert.FromBase64String("vibaOtNImyzWYyqdkWm3LsX53dg9fp+gMrhd8vbxAw8=") };
             yield return new object[] { Convert.FromBase64String("ElOwc3Xtni8vxtDyYO2vMPPcgjT71NSjKDcVVseBCqM=") };
@@ -23,7 +21,7 @@
         [Theory(DisplayName = "Strategies are loaded")]
         public void Test(byte[] encryptionKey)
         {
-            var svc = new ServiceCollection().AddFluentSerialization(encryptionKey).BuildServiceProvider();
+            var svc = new ServiceCollection().AddFluentSerialization(sp => encryptionKey).BuildServiceProvider();
 
             svc.GetServices<ISerializationStrategy>().Should().HaveCount(2);
             svc.GetServices<ISerializationStrategy>().OfType<JsonSerializationStrategy>().Single().Should().NotBeNull();

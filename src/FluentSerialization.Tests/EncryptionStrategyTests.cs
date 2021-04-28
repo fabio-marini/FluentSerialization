@@ -26,18 +26,38 @@
             decryptResponse.SequenceEqual(decryptRequest).Should().BeTrue();
         }
 
-        public static IEnumerable<object[]> PrivateKeys()
+        public static IEnumerable<object[]> ValidPrivateKeys()
         {
             yield return new object[] { Convert.FromBase64String("vibaOtNImyzWYyqdkWm3LsX53dg9fp+gMrhd8vbxAw8=") };
             yield return new object[] { AesEncryptionStrategy.GeneratePrivateKey() };
             yield return new object[] { AesEncryptionStrategy.GeneratePrivateKey() };
-            yield return new object[] { AesEncryptionStrategy.GeneratePrivateKey() };
-            yield return new object[] { AesEncryptionStrategy.GeneratePrivateKey() };
+        }
+
+        public static IEnumerable<object[]> InvalidPrivateKeys()
+        {
+            yield return new object[] { default(byte[]) };
+            yield return new object[] { new byte[0] };
         }
 
         [Theory]
-        [MemberData(nameof(PrivateKeys))]
-        public void TestAesEncryptionStrategy(byte[] privateKey)
+        [MemberData(nameof(InvalidPrivateKeys))]
+        public void TestAesEncryptionStrategy1(byte[] privateKey)
+        {
+            try
+            {
+                var strategy = new AesEncryptionStrategy(privateKey);
+
+                throw new Exception("Test did not throw expected exception!");
+            }
+            catch (ArgumentException ex)
+            {
+                ex.Should().NotBeNull();
+            }
+        }
+
+        [Theory]
+        [MemberData(nameof(ValidPrivateKeys))]
+        public void TestAesEncryptionStrategy2(byte[] privateKey)
         {
             var strategy = new AesEncryptionStrategy(privateKey);
 
