@@ -2,12 +2,11 @@
 {
     using FluentAssertions;
     using FluentSerialization;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Moq;
     using System;
     using System.Linq;
+    using Xunit;
 
-    [TestClass]
     public class FluentSerializationTests
     {
         class SecretAgent
@@ -16,18 +15,9 @@
             public string Id { get; set; }
         }
 
-        class TestStrategies : IStrategies
-        {
-            public IEncodingStrategy Encoding { get; set; }
-            public ICompressionStrategy Compression { get; set; }
-            public IEncryptionStrategy Encryption { get; set; }
-            public ISerializationStrategy Serialization { get; set; }
-            public IArchivingStrategy Archiving { get; set; }
-        }
-
         #region Base64
 
-        [TestMethod]
+        [Fact]
         public void WhenConvertBase64StringToBytes()
         {
             var bytes = System.Text.Encoding.UTF8.GetBytes("Hello world! :)");
@@ -38,7 +28,7 @@
             res1.SequenceEqual(bytes).Should().BeTrue();
         }
 
-        [TestMethod]
+        [Fact]
         public void WhenConvertBytesToBase64String()
         {
             var req1 = System.Text.Encoding.UTF8.GetBytes("Hello world! :)");
@@ -52,7 +42,7 @@
 
         #region Encoding
 
-        [TestMethod]
+        [Fact]
         public void WhenEncodeAndSuppliedStrategy()
         {
             var mockRequest = "Hello world! :)";
@@ -61,7 +51,7 @@
             var mockStrategy = new Mock<IEncodingStrategy>();
             mockStrategy.Setup(m => m.Encode(mockRequest)).Returns(mockResponse);
 
-            var opt = new TestStrategies
+            var opt = new SerializationOptions
             {
                 Encoding = mockStrategy.Object
             };
@@ -74,7 +64,7 @@
             mockStrategy.Verify(m => m.Encode(req1), Times.Once);
         }
 
-        [TestMethod]
+        [Fact]
         public void WhenEncodeAndDefaultStrategy()
         {
             var req1 = "Hello world! :)";
@@ -84,7 +74,7 @@
             res1.SequenceEqual(System.Text.Encoding.UTF8.GetBytes("Hello world! :)")).Should().BeTrue();
         }
 
-        [TestMethod]
+        [Fact]
         public void WhenDecodeAndSuppliedStrategy()
         {
             var mockRequest = System.Text.Encoding.UTF8.GetBytes("Hello world! :)");
@@ -93,7 +83,7 @@
             var mockStrategy = new Mock<IEncodingStrategy>();
             mockStrategy.Setup(m => m.Decode(mockRequest)).Returns(mockResponse);
 
-            var opt = new TestStrategies
+            var opt = new SerializationOptions
             {
                 Encoding = mockStrategy.Object
             };
@@ -106,7 +96,7 @@
             mockStrategy.Verify(m => m.Decode(req1), Times.Once);
         }
 
-        [TestMethod]
+        [Fact]
         public void WhenDecodeAndDefaultStrategy()
         {
             var req1 = System.Text.Encoding.UTF8.GetBytes("Hello world! :)");
@@ -120,7 +110,7 @@
 
         #region Compression
 
-        [TestMethod]
+        [Fact]
         public void WhenCompressAndSuppliedStrategy()
         {
             var mockRequest = System.Text.Encoding.UTF8.GetBytes("Hello world! :)");
@@ -129,7 +119,7 @@
             var mockStrategy = new Mock<ICompressionStrategy>();
             mockStrategy.Setup(m => m.Compress(mockRequest)).Returns(mockResponse);
 
-            var opt = new TestStrategies
+            var opt = new SerializationOptions
             {
                 Compression = mockStrategy.Object
             };
@@ -142,7 +132,7 @@
             mockStrategy.Verify(m => m.Compress(req1), Times.Once);
         }
 
-        [TestMethod]
+        [Fact]
         public void WhenDecompressAndSuppliedStrategy()
         {
             var mockRequest = System.Text.Encoding.UTF8.GetBytes("Hello world! :)");
@@ -151,7 +141,7 @@
             var mockStrategy = new Mock<ICompressionStrategy>();
             mockStrategy.Setup(m => m.Decompress(mockResponse)).Returns(mockRequest);
 
-            var opt = new TestStrategies
+            var opt = new SerializationOptions
             {
                 Compression = mockStrategy.Object
             };
@@ -164,7 +154,7 @@
             mockStrategy.Verify(m => m.Decompress(req2), Times.Once);
         }
 
-        [TestMethod]
+        [Fact]
         public void WhenCompressAndDefaultStrategy()
         {
             var req1 = System.Text.Encoding.UTF8.GetBytes("Hello world! :)");
@@ -174,7 +164,7 @@
             res1.SequenceEqual(req1).Should().BeTrue();
         }
 
-        [TestMethod]
+        [Fact]
         public void WhenDecompressAndDefaultStrategy()
         {
             var req2 = System.Text.Encoding.UTF8.GetBytes("Hello world! :)");
@@ -188,7 +178,7 @@
 
         #region Encryption
 
-        [TestMethod]
+        [Fact]
         public void WhenEncryptAndSuppliedStrategy()
         {
             var mockRequest = System.Text.Encoding.UTF8.GetBytes("Hello world! :)");
@@ -197,7 +187,7 @@
             var mockStrategy = new Mock<IEncryptionStrategy>();
             mockStrategy.Setup(m => m.Encrypt(mockRequest)).Returns(mockResponse);
 
-            var opt = new TestStrategies
+            var opt = new SerializationOptions
             {
                 Encryption = mockStrategy.Object
             };
@@ -210,7 +200,7 @@
             mockStrategy.Verify(m => m.Encrypt(req1), Times.Once);
         }
 
-        [TestMethod]
+        [Fact]
         public void WhenDecryptAndSuppliedStrategy()
         {
             var mockRequest = System.Text.Encoding.UTF8.GetBytes("Hello world! :)");
@@ -219,7 +209,7 @@
             var mockStrategy = new Mock<IEncryptionStrategy>();
             mockStrategy.Setup(m => m.Decrypt(mockResponse)).Returns(mockRequest);
 
-            var opt = new TestStrategies
+            var opt = new SerializationOptions
             {
                 Encryption = mockStrategy.Object
             };
@@ -232,7 +222,7 @@
             mockStrategy.Verify(m => m.Decrypt(req2), Times.Once);
         }
 
-        [TestMethod]
+        [Fact]
         public void WhenEncryptAndDefaultStrategy()
         {
             var req1 = System.Text.Encoding.UTF8.GetBytes("Hello world! :)");
@@ -242,7 +232,7 @@
             res1.SequenceEqual(req1).Should().BeTrue();
         }
 
-        [TestMethod]
+        [Fact]
         public void WhenDecryptAndDefaultStrategy()
         {
             var req2 = System.Text.Encoding.UTF8.GetBytes("Hello world! :)");
@@ -256,7 +246,7 @@
 
         #region Serialization
 
-        [TestMethod]
+        [Fact]
         public void WhenSerializeAndSuppliedStrategy()
         {
             var mockRequest = new SecretAgent { Id = "007", Name = "Bond. James Bond" };
@@ -265,7 +255,7 @@
             var mockStrategy = new Mock<ISerializationStrategy>();
             mockStrategy.Setup(m => m.Serialize<SecretAgent>(mockRequest)).Returns(mockResponse);
 
-            var opt = new TestStrategies
+            var opt = new SerializationOptions
             {
                 Serialization = mockStrategy.Object
             };
@@ -279,7 +269,7 @@
             mockStrategy.Verify(m => m.Serialize(req1), Times.Once);
         }
 
-        [TestMethod]
+        [Fact]
         public void WhenSerializeAndDefaultStrategy()
         {
             var req1 = new SecretAgent { Id = "007", Name = "Bond. James Bond" };
@@ -290,7 +280,7 @@
             res1.Should().Be("{\"Name\":\"Bond. James Bond\",\"Id\":\"007\"}");
         }
 
-        [TestMethod]
+        [Fact]
         public void WhenDeserializeAndSuppliedStrategy()
         {
             var mockRequest = "{\"Name\":\"Bond. James Bond\",\"Id\":\"007\"}";
@@ -299,7 +289,7 @@
             var mockStrategy = new Mock<ISerializationStrategy>();
             mockStrategy.Setup(m => m.Deserialize<SecretAgent>(mockRequest)).Returns(mockResponse);
 
-            var opt = new TestStrategies
+            var opt = new SerializationOptions
             {
                 Serialization = mockStrategy.Object
             };
@@ -314,7 +304,7 @@
             mockStrategy.Verify(m => m.Deserialize<SecretAgent>(req1), Times.Once);
         }
 
-        [TestMethod]
+        [Fact]
         public void WhenDeserializeAndDefaultStrategy()
         {
             var req1 = "{\"Name\":\"Bond. James Bond\",\"Id\":\"007\"}";

@@ -1,5 +1,6 @@
 ﻿namespace FluentSerialization.Strategies
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Security.Cryptography;
@@ -9,6 +10,19 @@
     /// </summary>
     public class AesEncryptionStrategy : IEncryptionStrategy
     {
+        /// <summary>
+        /// Generates a private key as a byte[32] for use with the <see cref="AesEncryptionStrategy"/>
+        /// </summary>
+        /// <returns>The private key as a byte[32] for use with the <see cref="AesEncryptionStrategy"/></returns>
+        public static byte[] GeneratePrivateKey()
+        {
+            var privateKey = new byte[32];
+
+            new Random().NextBytes(privateKey);
+
+            return privateKey;
+        }
+
         private readonly byte[] privateKey;
 
         /// <summary>

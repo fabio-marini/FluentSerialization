@@ -1,17 +1,16 @@
-﻿namespace FluentSerialization.Tests.Encryption
+﻿namespace FluentSerialization.Tests
 {
     using FluentAssertions;
     using FluentSerialization.Strategies;
-    using Microsoft.Extensions.Configuration;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Text;
+    using Xunit;
 
-    [TestClass]
     public class EncryptionStrategyTests
     {
-        [TestMethod]
+        [Fact]
         public void TestPassThruEncryptionStrategy()
         {
             var strategy = new PassThruEncryptionStrategy();
@@ -27,28 +26,19 @@
             decryptResponse.SequenceEqual(decryptRequest).Should().BeTrue();
         }
 
-        [TestMethod]
-        public void TestAesEncryptionStrategy()
+        public static IEnumerable<object[]> PrivateKeys()
         {
-            // get AES private key from config or environment variable
-            // the private key is a byte[32] and this values is a base64 string representation of that
-            var configRoot = new ConfigurationBuilder()
-                .AddUserSecrets("15d5a906-fcb8-4743-a116-c014ec361282")
-                .AddEnvironmentVariables()
-                .Build();
+            yield return new object[] { Convert.FromBase64String("vibaOtNImyzWYyqdkWm3LsX53dg9fp+gMrhd8vbxAw8=") };
+            yield return new object[] { AesEncryptionStrategy.GeneratePrivateKey() };
+            yield return new object[] { AesEncryptionStrategy.GeneratePrivateKey() };
+            yield return new object[] { AesEncryptionStrategy.GeneratePrivateKey() };
+            yield return new object[] { AesEncryptionStrategy.GeneratePrivateKey() };
+        }
 
-            var aes = configRoot.GetSection("Encryption").GetSection("Aes");
-
-            var base64Key = aes.GetChildren().FirstOrDefault(k => k.Key == "PrivateKey")?.Value;
-
-            if(string.IsNullOrEmpty(base64Key))
-            {
-                // try environment variables...
-                base64Key = Environment.GetEnvironmentVariable("ENCRYPTION__AES__PRIVATEKEY", EnvironmentVariableTarget.Process);
-            }
-
-            var privateKey = Convert.FromBase64String(base64Key);
-
+        [Theory]
+        [MemberData(nameof(PrivateKeys))]
+        public void TestAesEncryptionStrategy(byte[] privateKey)
+        {
             var strategy = new AesEncryptionStrategy(privateKey);
 
             var encryptRequest = Encoding.UTF8.GetBytes("Hello World!");

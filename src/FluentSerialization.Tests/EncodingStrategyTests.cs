@@ -1,16 +1,15 @@
-﻿namespace FluentSerialization.Tests.Encoding
+﻿namespace FluentSerialization.Tests
 {
     using FluentAssertions;
     using FluentSerialization.Strategies;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System;
     using System.Linq;
     using System.Text;
+    using Xunit;
 
-    [TestClass]
     public class EncodingStrategyTests
     {
-        [TestMethod]
+        [Fact]
         public void TestUtf8EncodingStrategy()
         {
             var strategy = new Utf8EncodingStrategy();
@@ -27,7 +26,7 @@
             decodeResponse.Should().Be("Hello World!");
         }
 
-        [TestMethod]
+        [Fact]
         public void TestUtf16EncodingStrategy()
         {
             var strategy = new Utf16EncodingStrategy();

@@ -1,21 +1,20 @@
-﻿namespace FluentSerialization.Tests.Compression
+﻿namespace FluentSerialization.Tests
 {
     using FluentAssertions;
     using FluentSerialization.Strategies;
     using ICSharpCode.SharpZipLib.Core;
     using ICSharpCode.SharpZipLib.Zip;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using System;
     using System.IO;
     using System.Linq;
     using System.Text;
+    using Xunit;
 
-    [TestClass]
     public class CompressionStrategyTests
     {
         string longText = Enumerable.Range(1, 128).Select(i => $"Hello world {i}! :)").Aggregate((s1, s2) => $"{s1}\r\n{s2}");
 
-        [TestMethod]
+        [Fact]
         public void TestPassThruCompressionStrategy()
         {
             var strategy = new PassThruCompressionStrategy();
@@ -31,7 +30,7 @@
             decompressResponse.SequenceEqual(decompressRequest).Should().BeTrue();
         }
 
-        [TestMethod]
+        [Fact]
         public void TestGZipCompressionStrategy()
         {
             var strategy = new GZipCompressionStrategy();
@@ -48,7 +47,7 @@
             decompressResponse.Length.Should().Be(2578);
         }
 
-        [TestMethod]
+        [Fact]
         public void TestBZip2CompressionStrategy()
         {
             var strategy = new BZip2CompressionStrategy();
@@ -65,7 +64,7 @@
             decompressResponse.Length.Should().Be(2578);
         }
 
-        [TestMethod, Ignore]
+        [Fact(Skip = "Not implemented")]
         public void TestZipArchivingStrategy()
         {
             var strategy = new ZipArchivingStrategy();
@@ -98,7 +97,7 @@
             //extractResponse.Length.Should().Be(2578);
         }
 
-        [TestMethod, Ignore]
+        [Fact(Skip = "Not implemented")]
         public void TestZipArchive()
         {
             // TODO: add support for password-protected archives
@@ -135,7 +134,7 @@
             File.WriteAllBytes(@"G:\Temp\ziptests\logs.zip", outputStream.ToArray());
         }
 
-        [TestMethod, Ignore]
+        [Fact(Skip = "Not implemented")]
         public void TestZipExtract()
         {
             var archive = new ZipFile(@"G:\Temp\ziptests\logs.zip");
@@ -161,9 +160,7 @@
                 {
                     StreamUtils.Copy(zipStream, fsOutput, buffer);
                 }
-
             }
-
         }
     }
 }

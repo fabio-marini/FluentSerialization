@@ -1,12 +1,11 @@
-﻿namespace FluentSerialization.Tests.Serialization
+﻿namespace FluentSerialization.Tests
 {
     using FluentAssertions;
     using FluentSerialization.Strategies;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Serialization;
+    using Xunit;
 
-    [TestClass]
     public class SerializationStrategyTests
     {
         class SecretAgent
@@ -16,7 +15,7 @@
             public string[] Drinks { get; set; }
         }
 
-        [TestMethod]
+        [Fact]
         public void TestJsonSerializationStrategyWithDefaultSettings()
         {
             var strategy = new JsonSerializationStrategy();
@@ -36,7 +35,7 @@
             deserializeResponse.Id.Should().Be("007");
         }
 
-        [TestMethod]
+        [Fact]
         public void TestJsonSerializationStrategyWithCustomSettings()
         {
             var customSettings = new JsonSerializerSettings
@@ -66,7 +65,7 @@
             deserializeResponse.Id.Should().Be("007");
         }
 
-        [TestMethod]
+        [Fact]
         public void TestXmlSerializationStrategyWithCustomSettings()
         {
             var customSettings = new JsonSerializerSettings
@@ -96,7 +95,7 @@
             deserializeResponse.Id.Should().Be("007");
         }
 
-        [TestMethod]
+        [Fact]
         public void TestXmlSerializationStrategyWithDefaultSettings()
         {
             var strategy = new XmlSerializationStrategy();
@@ -116,7 +115,7 @@
             deserializeResponse.Id.Should().Be("007");
         }
 
-        [TestMethod]
+        [Fact]
         public void TestXmlSerializationStrategyWithArrayOfOneElement()
         {
             var strategy = new XmlSerializationStrategy();
